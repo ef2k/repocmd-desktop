@@ -1,8 +1,6 @@
 <template>
   <div class="navbar">
-    <div class="nav-logo">
-    </div>
-    <div class="nav-wrap">
+    <div class="nav-wrap" v-if="hasToken">
       <div class="nav-item">
         <router-link to="/repos">
           Repositories
@@ -20,7 +18,13 @@
 <script>
 export default {
   name: 'navbar',
-  components: {}
+  props: ['token'],
+  components: {},
+  computed: {
+    hasToken: () => {
+      return !!this.token
+    }
+  }
 }
 </script>
 
@@ -33,11 +37,6 @@ export default {
   -webkit-user-select: none;
   -webkit-app-region: drag;
 
-  .nav-logo {
-    margin-left: 20px;
-    margin-right: auto;
-    color: $white;
-  }
   .nav-wrap {
     margin-right: 20px;
     margin-left: auto;

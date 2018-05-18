@@ -48,19 +48,19 @@ app.on('activate', () => {
   // TODO start the repocmd-server
 })
 
+/**
+ * Main process message handling
+ */
 const APP_NAME = 'repocmd'
 
-ipcMain.on('set-token', (event, arg) => {
+ipcMain.on('keychain-set-token', (event, arg) => {
   const { key, token } = arg
   keytar.setPassword(APP_NAME, key, token)
 })
 
-ipcMain.on('get-token', (event, service) => {
-  console.log('getting token for ', service)
-  // const key = { arg }
-  const token = keytar.getPassword(APP_NAME, service)
-  console.log('the token is it really? ', token)
-  event.sender.send('token-fetched', token)
+ipcMain.on('keychain-get-token', async (event, service) => {
+  const token = await keytar.getPassword(APP_NAME, service)
+  event.returnValue = token
 })
 
 /**

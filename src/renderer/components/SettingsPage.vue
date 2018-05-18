@@ -1,29 +1,21 @@
 <template>
   <div class="settings-page">
     <div class="settings-wrapper">
-      <h3>Accessing GitHub</h3>
+      <h3>Accessing GitHub {{token}}</h3>
       <p>
-        To get started, <a class="generate-link" href="#" @click="open('https://github.com/settings/tokens')">generate a Personal Access Token</a> <external-link-icon/> through your GitHub profile settings. Your token will be used
+        To get started, <a class="generate-link" href="#" @click="open('https://github.com/settings/tokens')">generate a Personal Access Token</a> <external-link-icon/> through your GitHub profile settings. Your token will be stored within your native keychain and used
         to access the GitHub API without having to ask for your account credentials.
       </p>
 
       <form @submit="onSubmit">
-        <div class="grid-wrap">
-          <div class="fields">
-            <div class="input-group">
-              <input type="text" v-model="form.accessToken" placeholder="Your GitHub Access Token" required/>
-            </div>
-            <div class="input-group">
-              <input type="password" v-model="form.passphrase" placeholder="Create a passphrase for local encryption" required/>
-            </div>
-          </div>
-          <div class="guide-image">
-            <img src="@/assets/scope-preview.png" title="repo scope is needed" style="{ height: 86px }"/>
-          </div>
+        <div class="guide-image">
+          <img src="@/assets/scope-preview.png" title="repo scope is needed" style="{ height: 86px }"/>
         </div>
-        <p>Your access token will be encrypted and stored on the local machine using the given passphrase. Once encrypted, the token is unrecoverable, so make sure your passphrase is kept safe.</p>
         <div class="input-group">
-          <button type="submit">I understand, grant access</button>
+          <input type="text" v-model="form.accessToken" placeholder="Your GitHub Access Token" required/>
+        </div>
+        <div class="input-group">
+          <button type="submit">Grant Access</button>
         </div>
       </form>
     </div>
@@ -35,6 +27,7 @@
   export default {
     name: 'settings-page',
     components: { ExternalLinkIcon },
+    props: ['token'],
     data () {
       return {
         form: {
@@ -55,16 +48,16 @@
 </script>
 
 <style lang="scss" scoped>
-
 @import "~@/assets/_globals";
 
 .settings-page {
-  padding: 0 20px;
 
   .settings-wrapper{
     width: 600px;
-    margin: auto;
+    padding: 0 20px;
     margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
 
     h3 {
       font-size: 24px;
@@ -89,21 +82,24 @@
       }
     }
     form {
-      .grid-wrap {
-        display: grid;
-        grid-template-columns: 270px auto;
-        grid-column-gap: 20px;
-
-        .fields {
-          margin-top: 22px;
-          .input-group {
-            overflow: auto;
-          }
+      .guide-image {
+        margin-top: 50px;
+        display: block;
+        text-align: center;
+        img {
+          height: 88px;
+          padding: 18px;
+          background: #f9f9f9;
         }
-        input {
+      }
+      .input-group {
+        text-align: center;
+        input[type=text] {
+          margin-top: 20px;
           font-size: 16px;
           padding: 10px 14px;
           width: 100%;
+          max-width: 312px;
           background: #f9f9f9;
           border: 1px solid #f9f9f9;
           border-radius: 3px;
@@ -111,32 +107,19 @@
           outline: 0;
           margin-bottom: 12px;
         }
-        .guide-image {
-          padding: 18px;
-          background: #f9f9f9;
-          display: inline-block;
-          img {
-            height: 88px;
-          }
+        button {
+          background: linear-gradient(#FFFFFF, #EFF3F6);
+          border: 1px solid #E1E4E8;
+          border-radius: 3px;
+          padding: 10px 24px;
+          font-size: 14px;
+          font-weight: 600;
+          margin-top: 10px;
+          cursor: pointer;
+          outline: 0;
         }
-      
-      }
-      p {
-        margin-top: 30px;
-      }
-      button {
-        background: linear-gradient(#FFFFFF, #EFF3F6);
-        border: 1px solid #E1E4E8;
-        border-radius: 3px;
-        padding: 10px 24px;
-        font-size: 14px;
-        font-weight: 600;
-        margin-top: 10px;
-        cursor: pointer;
-        outline: 0;
       }
     }
   }
 }
-
 </style>

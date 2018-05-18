@@ -1,21 +1,26 @@
 <template>
   <div id="app">
-    <navbar/>
-    <router-view/>
+    <navbar :token="token" />
+    <router-view :token="token" />
   </div>
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 import Navbar from './components/Navbar'
 
 export default {
   name: 'App',
+  data () {
+    return {
+      token: ipcRenderer.sendSync('keychain-get-token', 'gh')
+    }
+  },
   components: { Navbar }
 }
 </script>
 
 <style lang="scss">
-
 @import "~@/assets/_globals";
 
 html, body {

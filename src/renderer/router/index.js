@@ -6,19 +6,13 @@ import ReposPage from '@/components/ReposPage'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
+  props: ['token'],
   routes: [
     {
       path: '/',
       name: 'index-page',
-      component: SettingsPage,
-      beforeEnter: (to, from, next) => {
-        // const loggedIn = true
-        // if (loggedIn) {
-        //   return next('/repos')
-        // }
-        next()
-      }
+      component: SettingsPage
     },
     {
       path: '/settings',
@@ -36,3 +30,5 @@ export default new Router({
     }
   ]
 })
+
+export default router
