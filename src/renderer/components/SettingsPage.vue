@@ -41,7 +41,7 @@
       },
       onSubmit (event) {
         event.preventDefault()
-        console.log(this.form)
+        this.$emit('tokenChanged', this.form.accessToken)
       }
     }
   }

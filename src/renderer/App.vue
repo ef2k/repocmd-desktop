@@ -1,22 +1,35 @@
 <template>
   <div id="app">
     <navbar :token="token" />
-    <router-view :token="token" />
+    <div v-if="initialized">
+      <router-view :token="token" @tokenChanged="setToken"/>
+    </div>
+    <div v-else>
+      <h1>Checking for API token...</h1>
+    </div>
   </div>
 </template>
 
 <script>
 import { ipcRenderer } from 'electron'
 import Navbar from './components/Navbar'
+import TokenStore from '@/services/token-store'
 
 export default {
   name: 'App',
+  props: ['initialized'],
   data () {
     return {
       token: ipcRenderer.sendSync('keychain-get-token', 'gh')
     }
   },
-  components: { Navbar }
+  components: { Navbar },
+  methods: {
+    setToken (token) {
+      TokenStore.setToken(token)
+      this.token = token
+    }
+  }
 }
 </script>
 

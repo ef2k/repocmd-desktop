@@ -1,6 +1,7 @@
 <template>
   <div class="navbar">
-    <div class="nav-wrap" v-if="hasToken">
+    {{token}}
+    <div class="nav-wrap" v-if="!!token">
       <div class="nav-item">
         <router-link to="/repos">
           Repositories
@@ -22,6 +23,7 @@ export default {
   components: {},
   computed: {
     hasToken: () => {
+      console.log('props token ', this.token)
       return !!this.token
     }
   }
