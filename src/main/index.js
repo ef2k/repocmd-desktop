@@ -63,6 +63,10 @@ ipcMain.on('keychain-get-token', async (event, service) => {
   event.returnValue = token
 })
 
+ipcMain.on('keychain-delete-token', (event, service) => {
+  keytar.deletePassword(APP_NAME, service)
+})
+
 /**
  * Auto Updater
  *

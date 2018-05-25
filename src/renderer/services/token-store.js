@@ -9,6 +9,9 @@ class TokenStore {
     const msg = { key: 'gh', token }
     ipcRenderer.send('keychain-set-token', msg)
   }
+  static deleteToken () {
+    ipcRenderer.send('keychain-delete-token', 'gh')
+  }
 }
 
 export default TokenStore

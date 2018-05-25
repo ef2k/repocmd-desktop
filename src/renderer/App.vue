@@ -2,10 +2,10 @@
   <div id="app">
     <navbar :token="token" />
     <div v-if="initialized">
-      <router-view :token="token" @tokenChanged="setToken"/>
+      <router-view :token="token" @tokenChanged="setToken" @deleteToken="deleteToken"/>
     </div>
     <div v-else>
-      <h1>Checking for API token...</h1>
+      <h1>Loading...</h1>
     </div>
   </div>
 </template>
@@ -28,6 +28,10 @@ export default {
     setToken (token) {
       TokenStore.setToken(token)
       this.token = token
+    },
+    deleteToken () {
+      TokenStore.deleteToken()
+      this.token = ''
     }
   }
 }
