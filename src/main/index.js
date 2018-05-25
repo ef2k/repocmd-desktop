@@ -2,6 +2,8 @@
 
 import { app, ipcMain, BrowserWindow } from 'electron'
 import keytar from 'keytar'
+import path from 'path'
+import { execFile } from 'child_process'
 
 /**
  * Set `__static` path to static files in production
@@ -39,13 +41,7 @@ function createWindow () {
   })
 }
 
-function startServer () {
-  console.log('Server starts')
-}
-
 app.on('ready', () => {
-  console.log('Ready now')
-  startServer()
   createWindow()
 })
 
@@ -78,6 +74,37 @@ ipcMain.on('keychain-get-token', async (event, service) => {
 
 ipcMain.on('keychain-delete-token', (event, service) => {
   keytar.deletePassword(APP_NAME, service)
+})
+
+ipcMain.on('keychain-delete-token', (event, service) => {
+  keytar.deletePassword(APP_NAME, service)
+})
+
+let serverProc
+
+ipcMain.on('server-start', (event, token) => {
+  console.log('server-start requested')
+  const p = path.join(__static, 'repocmd_darwin')
+  const port = '3000'
+  const env = { 'PORT': port, 'GITHUB_TOKEN': token }
+
+  serverProc = execFile(p, { env }, (error, stdout, stderr) => {
+    console.log('exec holla')
+    if (error) {
+      console.log('child process error: ', error)
+      return
+    }
+    console.log('stdout> ', stdout)
+    console.log('stderr> ', stderr)
+  })
+
+  event.sender.send('server-started', token)
+})
+
+ipcMain.on('server-stop', () => {
+  if (serverProc) {
+    serverProc.kill()
+  }
 })
 
 /**

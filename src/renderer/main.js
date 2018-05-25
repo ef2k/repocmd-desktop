@@ -19,8 +19,16 @@ new Vue({
     }
   },
   async created () {
-    this.token = TokenStore.getToken()
-    this.initialized = true
+    const token = TokenStore.getToken()
+    this.token = token
+    if (!token) {
+      this.initialized = true
+      return
+    }
+    APIServer.start(token)
+      .then(resp => {
+        this.initialized = true
+      })
   },
   router: (() => {
     let promise = new Promise(resolve => {
