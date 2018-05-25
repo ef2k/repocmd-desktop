@@ -13,7 +13,7 @@
 <script>
 import { ipcRenderer } from 'electron'
 import Navbar from './components/Navbar'
-import TokenStore from '@/services/token-store'
+import { TokenStore } from '@/services/ipc'
 
 export default {
   name: 'App',

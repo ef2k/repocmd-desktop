@@ -14,4 +14,21 @@ class TokenStore {
   }
 }
 
-export default TokenStore
+class APIServer {
+  static start (token) {
+    return new Promise(resolve => {
+      ipcRenderer.once('server-started', () => {
+        resolve()
+      })
+      ipcRenderer.send('server-start', token)
+    })
+  }
+  static stop () {
+    return ipcRenderer.sendSync('server-stop')
+  }
+}
+
+export {
+  TokenStore,
+  APIServer
+}
