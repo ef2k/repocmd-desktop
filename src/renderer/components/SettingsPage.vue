@@ -4,7 +4,7 @@
       <div v-if="token">
         <h3>Manage GitHub Access</h3>
         <p>Your personal access token is stored within your operating system's keychain. Deleting it will remove the key from this machine but will not destroy the key. Remember to destroy the key from your <a class="generate-link" href="#" @click="open('https://github.com/settings/tokens')">GitHub profile settings</a> <external-link-icon/>.</p>
-        <p><code>{{token}}</code> <a href="#" class="delete-link" @click="deleteToken()">Delete</a></p>
+        <p><code>{{maskedToken}}</code> <a href="#" class="delete-link" @click="deleteToken()">Delete</a></p>
       </div>
       <div v-else>
         <h3>Connecting to GitHub</h3>
@@ -39,6 +39,12 @@
         form: {
           accessToken: ''
         }
+      }
+    },
+    computed: {
+      maskedToken () {
+        const token = this.token
+        return token.substr(0, 4) + '*****' + token.substr(token.length - 4)
       }
     },
     methods: {
