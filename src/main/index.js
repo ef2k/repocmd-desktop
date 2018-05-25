@@ -23,7 +23,13 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
     height: 800,
-    width: 600
+    width: 600,
+    backgroundColor: '#282828',
+    show: false
+  })
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
   })
 
   mainWindow.loadURL(winURL)
@@ -33,7 +39,15 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+function startServer () {
+  console.log('Server starts')
+}
+
+app.on('ready', () => {
+  console.log('Ready now')
+  startServer()
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -45,7 +59,6 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
-  // TODO start the repocmd-server
 })
 
 /**
