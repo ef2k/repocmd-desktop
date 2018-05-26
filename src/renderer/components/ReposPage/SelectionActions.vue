@@ -90,77 +90,78 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/assets/_globals";
+@import "~@/assets/_globals";
 
-  .selection-actions {
-    text-align: center;
-    padding: 0;
+.selection-actions {
+  text-align: center;
+  padding: 0;
 
-    .chart-wrapper {
-      max-width: 250px;
+  .chart-wrapper {
+    max-width: 250px;
+  }
+
+  .selection-summary {
+    margin-top: -10px;
+  }
+
+  form {
+    margin-bottom: 20px;
+    fieldset {
+      border: 1px solid #DDD;
+      padding: 10px 20px;
     }
-
-    .selection-summary {
-      margin-top: -10px;
+    legend {
+      font-size: 16px;
+      margin: 0;
     }
+  }
 
-    form {
-      margin-bottom: 20px;
-      fieldset {
-        border: 1px solid #DDD;
-        padding: 10px 20px;
-      }
-      legend {
-        font-size: 16px;
-        margin: 0;
-      }
+  select {
+    margin: 20px auto;
+  }
+  .action-info {
+    font-size: 14px;
+    background: #F9F9F9;
+    width: 100%;
+    height: 100px;
+    max-height: 300px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    p {
+      padding: 0 10px;
+      line-height: 1.3;
     }
-
-    select {
-      margin: 20px auto;
-    }
-    .action-info {
+  }
+  .action-btn-wrapper {
+    display: block;
+    margin-bottom: 10px;
+    .action-btn {
+      background: transparent;
+      border: 1px solid $bright-blue;
+      font-weight: 600;
       font-size: 14px;
-      background: #F9F9F9;
-      width: 100%;
-      height: 100px;
-      max-height: 300px;
-      margin: 0 auto;
-      margin-bottom: 20px;
-      // display: flex;
-      align-items: center;
-      p {
-        padding: 0 10px;
-        line-height: 1.3;
+      line-height: 14px;
+      color: $bright-blue;
+      border-radius: 3px;
+      text-decoration: none;
+      padding: 12px 15px;
+      display: inline-block;
+      transition: all 0.4s;
+      cursor: pointer;
+      &:hover {
+        border: 1px solid black;
+        color: black;
       }
-    }
-    .action-btn-wrapper {
-      display: block;
-      margin-bottom: 10px;
-      .action-btn {
-        border: 1px solid $bright-blue;
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 14px;
-        color: $bright-blue;
-        border-radius: 3px;
-        text-decoration: none;
-        padding: 12px 15px;
-        display: inline-block;
-        transition: all 0.4s;
-        cursor: pointer;
-        &:hover {
-          border: 1px solid black;
-          color: black;
-        }
 
-        &[disabled] {
-          border: 1px solid #dddddd;
-          color: #ddd;
-          pointer-events: none;
-          cursor: default;
-        }
+      &[disabled] {
+        border: 1px solid #dddddd;
+        color: #ddd;
+        pointer-events: none;
+        cursor: default;
       }
     }
   }
+}
 </style>
