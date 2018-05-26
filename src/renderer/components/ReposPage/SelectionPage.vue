@@ -82,6 +82,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/_globals";
+
 .selection-page {
   padding-right: 20px;
 }
@@ -103,7 +105,7 @@ export default {
       height: 18px;
     }
     a {
-      color: var(--bright-blue);
+      color: $bright-blue;
       font-weight: bold;
       text-decoration: none;
       vertical-align: middle;

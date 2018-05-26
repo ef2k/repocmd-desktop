@@ -90,6 +90,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/_globals";
+
   .selection-actions {
     text-align: center;
     padding: 0;
@@ -136,11 +138,11 @@ export default {
       display: block;
       margin-bottom: 10px;
       .action-btn {
-        border: 1px solid var(--bright-blue);
+        border: 1px solid $bright-blue;
         font-weight: 600;
         font-size: 14px;
         line-height: 14px;
-        color: var(--bright-blue);
+        color: $bright-blue;
         border-radius: 3px;
         text-decoration: none;
         padding: 12px 15px;

@@ -133,6 +133,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+  @import "~@/assets/_globals";
+
   .repo-list {
     display: grid;
     grid-template-columns: 405px auto;
@@ -146,11 +148,11 @@ export default {
     position: relative;
   }
   .filter-options a {
-    color: var(--bright-blue);
+    color: $bright-blue;
     text-decoration: none;
     font-weight: bold;
   }
   .filter-options a[disabled=disabled] {
-    color: var(--black);
+    color: $black;
   }
 </style>

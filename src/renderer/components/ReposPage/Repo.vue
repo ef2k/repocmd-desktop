@@ -67,11 +67,13 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+  @import "~@/assets/_globals";
+
   .repo {
     margin: 10px 0;
     padding: 24px 22px;
-    background: var(--light-gray);
+    background: $light-gray;
     overflow: auto;
     display: grid;
     max-width: 350px;
@@ -80,7 +82,7 @@ export default {
     transition: background 0.6s;
   }
   .repo.checked {
-    background: var(--select-green);
+    background: $select-green;
   }
   .feather {
     width: 14px;
@@ -108,7 +110,7 @@ export default {
     right: 8px;
   }
   .checked .checkmark {
-    color: var(--check-green);
+    color: $check-green;
   }
   .card-aside .settings {
     position: absolute;
@@ -127,7 +129,7 @@ export default {
     padding: 3px 4px;
     border: 1px solid rgba(27, 30, 34, 0.15);
     box-shadow: none;
-    color: var(--black);
+    color: $black;
     display: inline-block;
     vertical-align: middle;
   }
@@ -138,7 +140,7 @@ export default {
     padding: 3px 4px;
     border: 1px solid rgba(27, 30, 34, 0.15);
     box-shadow: none;
-    color: var(--black);
+    color: $black;
     display: inline-block;
     vertical-align: middle;
   }
@@ -148,7 +150,7 @@ export default {
     font-size: 12px;
     font-weight: bold;
     line-height: 12px;
-    color: var(--black);
+    color: $black;
     display: inline-block;
     margin-right: 5px;
   }
@@ -164,7 +166,7 @@ export default {
   }
   .title a {
     text-decoration: none;
-    color: var(--bright-blue);
+    color: $bright-blue;
   }
   .description {
     line-height: 1.5;
@@ -183,8 +185,8 @@ export default {
   }
   .pushed-at a {
     text-decoration: none;
-    color: var(--bright-blue);
-    border-bottom: 1px dotted var(--black);
+    color: $bright-blue;
+    border-bottom: 1px dotted $black;
   }
   .pushed-at code {
     margin: 5px auto;
