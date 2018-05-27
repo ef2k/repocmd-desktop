@@ -23,6 +23,7 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
+    title: 'RepoCMD',
     titleBarStyle: 'hidden',
     height: 800,
     width: 600,
@@ -84,18 +85,14 @@ let serverProc
 
 ipcMain.on('server-start', (event, token) => {
   console.log('server-start requested')
-  const p = path.join(__static, 'repocmd_darwin')
+  const p = path.join(process.cwd(), 'lib', 'repocmd_darwin')
   const port = '3000'
   const env = { 'PORT': port, 'GITHUB_TOKEN': token }
 
-  serverProc = execFile(p, { env }, (error, stdout, stderr) => {
-    console.log('exec holla')
+  serverProc = execFile(p, { env }, (error) => {
     if (error) {
-      console.log('child process error: ', error)
-      return
+      console.log(error)
     }
-    console.log('stdout> ', stdout)
-    console.log('stderr> ', stderr)
   })
 
   event.sender.send('server-started', token)

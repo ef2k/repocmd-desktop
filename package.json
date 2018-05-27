@@ -1,6 +1,6 @@
 {
-  "name": "repocmd",
-  "version": "0.0.0",
+  "name": "RepoCMD",
+  "version": "1.0.0",
   "author": "Eddie Flores <eddie@eddieflores.com>",
   "description": "Quickly overview and manage GitHub repositories",
   "license": null,
@@ -22,13 +22,16 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "repocmd",
-    "appId": "org.simulatedgreg.electron-vue",
+    "productName": "RepoCMD",
+    "appId": "com.eddieflores.repocmd",
     "directories": {
       "output": "build"
     },
     "files": [
       "dist/electron/**/*"
+    ],
+    "asarUnpack": [
+      "lib/repocmd_darwin"
     ],
     "dmg": {
       "contents": [
