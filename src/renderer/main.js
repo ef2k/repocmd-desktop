@@ -21,7 +21,7 @@ new Vue({
       token: ''
     }
   },
-  async created () {
+  created () {
     const token = TokenStore.getToken()
     this.token = token
     if (!token) {

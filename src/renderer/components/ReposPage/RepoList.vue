@@ -137,10 +137,11 @@ export default {
 
   .repo-list {
     display: grid;
-    grid-template-columns: 405px auto;
+    grid-template-columns: 425px auto;
     grid-column-gap: 20px;
   }
   .side-pane {
+    padding-left: 20px;
     border-right: 1px solid #D8D8D8;
     overflow-y: scroll;
   }
