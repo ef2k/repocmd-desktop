@@ -42,23 +42,33 @@ function createWindow () {
   })
 }
 
-app.on('ready', () => {
-  createWindow()
-  globalShortcut.register('CommandOrControl+,', () => {
-    mainWindow.webContents.send('shortcut-settings')
+/**
+ * The API Server
+ */
+let serverProc
+
+function killServerProc () {
+  if (serverProc) {
+    serverProc.kill()
+  }
+}
+
+ipcMain.on('server-start', (event, token) => {
+  const p = path.join(process.cwd(), 'lib', 'repocmd_darwin')
+  const port = '3000'
+  const env = { 'PORT': port, 'GITHUB_TOKEN': token }
+
+  serverProc = execFile(p, { env }, (error) => {
+    if (error) {
+      console.log(error)
+    }
   })
+
+  event.sender.send('server-started', token)
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow()
-  }
+ipcMain.on('server-stop', () => {
+  killServerProc()
 })
 
 /**
@@ -84,25 +94,26 @@ ipcMain.on('keychain-delete-token', (event, service) => {
   keytar.deletePassword(APP_NAME, service)
 })
 
-let serverProc
-
-ipcMain.on('server-start', (event, token) => {
-  const p = path.join(process.cwd(), 'lib', 'repocmd_darwin')
-  const port = '3000'
-  const env = { 'PORT': port, 'GITHUB_TOKEN': token }
-
-  serverProc = execFile(p, { env }, (error) => {
-    if (error) {
-      console.log(error)
-    }
+/**
+ * App lifecycle hooks
+ */
+app.on('ready', () => {
+  createWindow()
+  globalShortcut.register('CommandOrControl+,', () => {
+    mainWindow.webContents.send('shortcut-settings')
   })
-
-  event.sender.send('server-started', token)
 })
 
-ipcMain.on('server-stop', () => {
-  if (serverProc) {
-    serverProc.kill()
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+  killServerProc()
+})
+
+app.on('activate', () => {
+  if (mainWindow === null) {
+    createWindow()
   }
 })
 
