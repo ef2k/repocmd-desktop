@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
 import Navbar from './components/Navbar'
 import { TokenStore } from '@/services/ipc'
 
@@ -20,7 +19,7 @@ export default {
   props: ['initialized'],
   data () {
     return {
-      token: ipcRenderer.sendSync('keychain-get-token', 'gh')
+      token: TokenStore.getToken()
     }
   },
   components: { Navbar },
