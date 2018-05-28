@@ -2,7 +2,7 @@
 <div class="repo-list">
   <div class="side-pane" :style="{ height: winHeight+'px', maxHeight: winHeight+'px'}">
     <div v-if="loading">
-      <p><i data-feather="github"></i> Fetching the latest repo data...</p>
+      <p>Fetching the latest repo data...</p>
     </div>
     <div v-else-if="error">
       <p v-if="error.status === 0">The proxy server is offline.</p>
@@ -10,7 +10,7 @@
       <pre>
         {{error}}
       </pre>
-      <a href="#">Retry the server</a>
+      <a href="#" @click="retryServer()">Retry the server</a>
     </div>
     <div v-else>
       <div>
@@ -36,10 +36,12 @@
 <script>
 import Repo from './Repo'
 import SelectionPage from './SelectionPage'
-
-// import feather from 'feather-icons'
+import { APIServer } from '@/services/ipc'
 
 export default {
+  props: [
+    'token'
+  ],
   components: {
     Repo,
     SelectionPage
@@ -93,6 +95,10 @@ export default {
     // window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    retryServer () {
+      APIServer.start(this.token)
+      this.fetchRepos()
+    },
     fetchRepos () {
       this.loading = true
       this.$http.get('http://localhost:3000/repos')

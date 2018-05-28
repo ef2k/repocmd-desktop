@@ -4,6 +4,7 @@ import { app, globalShortcut, ipcMain, BrowserWindow } from 'electron'
 import keytar from 'keytar'
 import path from 'path'
 import { execFile } from 'child_process'
+import log from 'electron-log'
 
 /**
  * Set `__static` path to static files in production
@@ -54,13 +55,21 @@ function killServerProc () {
 }
 
 ipcMain.on('server-start', (event, token) => {
-  const p = path.join(process.cwd(), 'lib', 'repocmd_darwin')
+  let execPath
+  if (process.env.NODE_ENV !== 'development') {
+    execPath = path.join(process.resourcesPath, 'bin/repocmd')
+  } else {
+    execPath = path.join(process.cwd(), 'resources/mac/repocmd')
+  }
+
   const port = '3000'
   const env = { 'PORT': port, 'GITHUB_TOKEN': token }
 
-  serverProc = execFile(p, { env }, (error) => {
+  serverProc = execFile(execPath, { env }, (error) => {
     if (error) {
-      console.log(error)
+      if (process.env.NODE_ENV !== 'development') {
+        log.error(error)
+      }
     }
   })
 
