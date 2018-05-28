@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, ipcMain, BrowserWindow } from 'electron'
+import { app, globalShortcut, ipcMain, BrowserWindow } from 'electron'
 import keytar from 'keytar'
 import path from 'path'
 import { execFile } from 'child_process'
@@ -44,6 +44,9 @@ function createWindow () {
 
 app.on('ready', () => {
   createWindow()
+  globalShortcut.register('CommandOrControl+,', () => {
+    mainWindow.webContents.send('shortcut-settings')
+  })
 })
 
 app.on('window-all-closed', () => {
@@ -84,7 +87,6 @@ ipcMain.on('keychain-delete-token', (event, service) => {
 let serverProc
 
 ipcMain.on('server-start', (event, token) => {
-  console.log('server-start requested')
   const p = path.join(process.cwd(), 'lib', 'repocmd_darwin')
   const port = '3000'
   const env = { 'PORT': port, 'GITHUB_TOKEN': token }

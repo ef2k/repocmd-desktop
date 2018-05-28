@@ -5,12 +5,17 @@ import moment from 'vue-moment'
 import App from './App'
 import router from './router'
 import { APIServer, TokenStore } from '@/services/ipc'
+import { ipcRenderer } from 'electron'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 
 Vue.use(moment)
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
+
+ipcRenderer.on('shortcut-settings', () => {
+  router.replace('/settings')
+})
 
 /* eslint-disable no-new */
 new Vue({
