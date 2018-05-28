@@ -105,10 +105,10 @@ app.on('ready', () => {
 })
 
 app.on('window-all-closed', () => {
+  killServerProc()
   if (process.platform !== 'darwin') {
     app.quit()
   }
-  killServerProc()
 })
 
 app.on('activate', () => {
