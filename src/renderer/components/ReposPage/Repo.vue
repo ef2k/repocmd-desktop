@@ -2,7 +2,7 @@
   <div class="repo" v-bind:class="{ checked: checked }">
     <div class="content">
       <h3 class="title">
-        <a :href="repo.url">{{repo.name}}</a>
+        <a href="#" @click="open(repo.url)">{{repo.name}}</a>
         <span v-if="repo.isPrivate" class="mini-badge">Private</span>
         <span v-if="repo.isFork" class="mini-badge">Fork</span>
       </h3>
@@ -20,7 +20,7 @@
       </div>
       <p class="pushed-at">
         <span class="commit-info">
-          <i data-feather="git-commit"></i> <strong><a :href="commitURL" :title="commitHeadline">{{commitSHA}}</a> committed {{repo.pushedAt | moment("from", "now")}}</strong>
+          <i data-feather="git-commit"></i> <strong><a href="#" @click="open(commitURL)" :title="commitHeadline">{{commitSHA}}</a> committed {{repo.pushedAt | moment("from", "now")}}</strong>
         </span>
       </p>
     </div>
@@ -58,6 +58,9 @@ export default {
       } else {
         this.$emit('unchecked', this.repo)
       }
+    },
+    open (link) {
+      this.$electron.shell.openExternal(link)
     }
   },
   mounted () {
