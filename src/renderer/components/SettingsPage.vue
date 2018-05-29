@@ -33,7 +33,10 @@
   export default {
     name: 'settings-page',
     components: { ExternalLinkIcon },
-    props: ['token'],
+    props: [
+      'token',
+      'port'
+    ],
     data () {
       return {
         form: {

@@ -5,6 +5,7 @@ import keytar from 'keytar'
 import path from 'path'
 import { execFile } from 'child_process'
 import log from 'electron-log'
+import getPort from 'get-port'
 
 /**
  * Set `__static` path to static files in production
@@ -64,18 +65,17 @@ ipcMain.on('server-start', (event, token) => {
     execPath = path.join(process.cwd(), 'resources/mac/repocmd')
   }
 
-  const port = '3000'
-  const env = { 'PORT': port, 'GITHUB_TOKEN': token }
-
-  serverProc = execFile(execPath, { env }, (error) => {
-    if (error) {
-      if (process.env.NODE_ENV !== 'development') {
-        log.error(error)
+  getPort().then(port => {
+    const env = { 'PORT': port, 'GITHUB_TOKEN': token }
+    serverProc = execFile(execPath, { env }, (error) => {
+      if (error) {
+        if (process.env.NODE_ENV !== 'development') {
+          log.error(error)
+        }
       }
-    }
+    })
+    event.sender.send('server-started', port, token)
   })
-
-  event.sender.send('server-started', token)
 })
 
 ipcMain.on('server-stop', () => {

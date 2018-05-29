@@ -1,5 +1,5 @@
 <template>
-  <repo-list :token="token"/>
+  <repo-list :token="token" :port="port"/>
 </template>
 
 <script>
@@ -7,7 +7,8 @@
   export default {
     name: 'repos-page',
     props: [
-      'token'
+      'token',
+      'port'
     ],
     components: {RepoList},
     methods: {}

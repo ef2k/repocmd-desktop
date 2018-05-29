@@ -2,7 +2,7 @@
   <div id="app">
     <navbar :token="token" />
     <div v-if="initialized">
-      <router-view :token="token" @tokenChanged="setToken" @deleteToken="deleteToken"/>
+      <router-view :token="token" :port="port" @tokenChanged="setToken" @deleteToken="deleteToken"/>
     </div>
     <div v-else>
       <h1>Loading...</h1>
@@ -16,7 +16,10 @@ import { TokenStore } from '@/services/ipc'
 
 export default {
   name: 'App',
-  props: ['initialized'],
+  props: [
+    'initialized',
+    'port'
+  ],
   data () {
     return {
       token: TokenStore.getToken()

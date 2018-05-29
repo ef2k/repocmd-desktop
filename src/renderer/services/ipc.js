@@ -17,8 +17,8 @@ class TokenStore {
 class APIServer {
   static start (token) {
     return new Promise(resolve => {
-      ipcRenderer.once('server-started', () => {
-        resolve()
+      ipcRenderer.once('server-started', (event, port) => {
+        resolve(port)
       })
       ipcRenderer.send('server-start', token)
     })

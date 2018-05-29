@@ -23,7 +23,8 @@ new Vue({
   data () {
     return {
       initialized: false,
-      token: ''
+      token: '',
+      port: ''
     }
   },
   created () {
@@ -34,7 +35,8 @@ new Vue({
       return
     }
     APIServer.start(token)
-      .then(resp => {
+      .then(port => {
+        this.port = port
         this.initialized = true
       })
   },
@@ -60,5 +62,5 @@ new Vue({
       }
     }
   },
-  template: '<App :initialized="initialized"/>'
+  template: '<App :initialized="initialized" :port="port" />'
 }).$mount('#app')

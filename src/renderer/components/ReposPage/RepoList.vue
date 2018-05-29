@@ -40,7 +40,8 @@ import { APIServer } from '@/services/ipc'
 
 export default {
   props: [
-    'token'
+    'token',
+    'port'
   ],
   components: {
     Repo,
@@ -101,7 +102,7 @@ export default {
     },
     fetchRepos () {
       this.loading = true
-      this.$http.get('http://localhost:3000/repos')
+      this.$http.get(`http://localhost:${this.port}/repos`)
         .then(response => {
           this.repos = response.data
           this.loading = false
