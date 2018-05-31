@@ -2,7 +2,7 @@
   <modal name="progress-modal" :clickToClose="false" height="auto">
     <div class="modal-body">
       <div class="loader">
-        <img src="/static/icon128.png" height="64"/>
+        <img src="static/icon128.png" height="64"/>
         <div class="message">
           Archiving...
         </div>
