@@ -19,7 +19,8 @@
           Filter by:
           <a href="#" @click="filterBy('all')" :disabled="isFilteredAll">All</a> |
           <a href="#" @click="filterBy('public')" :disabled="isFilteredPublic">Public</a> |
-          <a href="#" @click="filterBy('private')" :disabled="isFilteredPrivate">Private</a>
+          <a href="#" @click="filterBy('private')" :disabled="isFilteredPrivate">Private</a> |
+          <a href="#" @click="filterBy('archived')" :disabled="isFilteredArchived">Archived</a>
         </p>
         <repo v-for="repo in filteredList" v-bind:key="repo.id" :repo="repo" @checked="checkRepo" @unchecked="uncheckRepo"></repo>
       </div>
@@ -27,15 +28,17 @@
   </div>
   <div class="main-pane" :style="{ height: winHeight+'px', maxHeight: winHeight+'px'}">
     <transition name="fade">
-      <selection-page v-if="hasSelected" :repos="selected" @unchecked="uncheckRepo"/>
+      <selection-page v-if="hasSelected" :repos="selected" @action="doAction" @unchecked="uncheckRepo"/>
     </transition>
   </div>
+  <progress-modal></progress-modal>
 </div>
 </template>
 
 <script>
 import Repo from './Repo'
 import SelectionPage from './SelectionPage'
+import ProgressModal from './ProgressModal'
 import { APIServer } from '@/services/ipc'
 
 export default {
@@ -45,10 +48,12 @@ export default {
   ],
   components: {
     Repo,
-    SelectionPage
+    SelectionPage,
+    ProgressModal
   },
   data () {
     return {
+      baseURL: `http://localhost:${this.port}`,
       loading: false,
       error: '',
       filterOption: 'all',
@@ -76,11 +81,16 @@ export default {
     isFilteredPrivate () {
       return this.filterOption === 'private'
     },
+    isFilteredArchived () {
+      return this.filterOption === 'archived'
+    },
     filteredList () {
       if (this.filterOption === 'private') {
         return this.repos.filter(repo => repo.isPrivate)
       } else if (this.filterOption === 'public') {
         return this.repos.filter(repo => !repo.isPrivate)
+      } else if (this.filterOption === 'archived') {
+        return this.repos.filter(repo => repo.isArchived)
       }
       return this.repos
     }
@@ -102,7 +112,7 @@ export default {
     },
     fetchRepos () {
       this.loading = true
-      this.$http.get(`http://localhost:${this.port}/repos`)
+      this.$http.get(`${this.baseURL}/repos`)
         .then(response => {
           this.repos = response.data
           this.loading = false
@@ -111,6 +121,38 @@ export default {
           this.loading = false
           this.error = err
         })
+    },
+    doAction (action) {
+      const selected = this.selected
+      if (action === 'archive') {
+        this.$modal.show('progress-modal')
+
+        const requests = []
+        for (let k in selected) {
+          const item = selected[k]
+          const req = this.$http.post(`${this.baseURL}/repos`, {
+            nameWithOwner: item.nameWithOwner,
+            isArchived: true
+          })
+          req.then(() => {
+            this.$set(item, 'isArchived', true)
+          })
+          requests.push(req)
+        }
+
+        Promise.all(requests)
+          .then(response => {
+            console.log(response)
+          })
+          .catch(err => {
+            console.error(err)
+          })
+          .finally(() => {
+            setTimeout(() => {
+              this.$modal.hide('progress-modal')
+            }, 2 * 1000)
+          })
+      }
     },
     checkRepo (repo) {
       const item = this.repos.find(item => item.id === repo.id)

@@ -12,7 +12,7 @@
           To get started, <a class="generate-link" href="#" @click="open('https://github.com/settings/tokens')">generate a Personal Access Token</a> <external-link-icon/> through your GitHub profile settings. Your token will be stored within your native keychain and used
           to access the GitHub API.
         </p>
-        <form @submit="onSubmit">
+        <form @submit.prevent="onSubmit">
           <div class="guide-image">
             <img src="@/assets/scope-preview.png" title="repo scope is needed" style="{ height: 86px }"/>
           </div>
@@ -55,7 +55,6 @@
         this.$electron.shell.openExternal(link)
       },
       onSubmit (event) {
-        event.preventDefault()
         event.target.reset()
         this.$emit('tokenChanged', this.form.accessToken)
       },

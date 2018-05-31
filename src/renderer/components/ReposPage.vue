@@ -10,8 +10,9 @@
       'token',
       'port'
     ],
-    components: {RepoList},
-    methods: {}
+    components: {
+      RepoList
+    }
   }
 </script>
 

@@ -57,6 +57,14 @@ html, body {
   opacity: 0;
 }
 
+/* Stop image dragging */
+img, img::after, img::before {
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-app-region: no-drag;
+	cursor: default;
+}
+
 #app {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;

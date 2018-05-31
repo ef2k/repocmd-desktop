@@ -8,7 +8,7 @@
       </div>
     </fieldset>
     </form>
-  <form class="danger-zone">
+  <form @submit.prevent="submit" class="danger-zone">
     <fieldset>
       <legend>Danger Zone</legend>
       <select v-model="selected">
@@ -84,6 +84,9 @@ export default {
   methods: {
     select (payload) {
       this.selected = payload.value
+    },
+    submit (event) {
+      this.$emit('action', this.selected)
     }
   }
 }

@@ -2,13 +2,10 @@
 <div class="selection-page">
   <div class="selection-header">
     <h3>Selected Repositories ({{selectedLen}})</h3>
-    <!-- <p class="selection-links">
-      <i data-feather="delete"></i><a href="#">Clear Selection</a>
-    </p> -->
   </div>
   <div class="wrapper">
     <selection-list :repos="repos" :height="listHeight" @unchecked="unchecked" />
-    <selection-actions :repos="repos"/>
+    <selection-actions :repos="repos" @action="emitAction"/>
   </div>
 </div>
 </template>
@@ -44,6 +41,9 @@ export default {
     },
     unchecked (repo) {
       this.$emit('unchecked', repo)
+    },
+    emitAction (action) {
+      this.$emit('action', action)
     },
     calculateListHeight () {
       const winHeight = document.documentElement.clientHeight

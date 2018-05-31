@@ -1,6 +1,5 @@
 <template>
   <div class="navbar">
-    {{token}}
     <div class="nav-wrap" v-if="!!token">
       <div class="nav-item">
         <router-link to="/repos">

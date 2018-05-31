@@ -1,10 +1,11 @@
 <template>
-  <div class="repo" v-bind:class="{ checked: checked }">
+  <div class="repo" v-bind:class="{ checked, archived }">
     <div class="content">
       <h3 class="title">
         <a href="#" @click="open(repo.url)">{{repo.name}}</a>
         <span v-if="repo.isPrivate" class="mini-badge">Private</span>
         <span v-if="repo.isFork" class="mini-badge">Fork</span>
+        <span v-if="repo.isArchived" class="mini-badge">Archived</span>
       </h3>
       <p class="description">{{repo.description}}</p>
       <div class="stats">
@@ -49,6 +50,9 @@ export default {
     },
     checked () {
       return this.repo.checked
+    },
+    archived () {
+      return this.repo.isArchived
     }
   },
   methods: {
@@ -83,6 +87,12 @@ export default {
     grid-template-columns: auto 30px;
     grid-column-gap: 10px;
     transition: background 0.6s;
+    &.archived {
+      background: $archived-bg;
+      a {
+        color: $black;
+      }
+    }
   }
   .repo.checked {
     background: $select-green;
