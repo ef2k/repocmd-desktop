@@ -56,7 +56,7 @@ export default {
   },
   data () {
     return {
-      baseURL: `http://localhost:${this.port}`,
+      baseURL: `http://127.0.0.1:${this.port}`,
       loading: false,
       error: '',
       filterOption: 'all',
