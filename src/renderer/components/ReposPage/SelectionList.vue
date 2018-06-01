@@ -27,14 +27,8 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
   .selection-list {
     overflow: auto;
-  }
-  h3 {
-    text-align: center;
-    font-size: 22px;
-    margin: 20px 0;
   }
 </style>
