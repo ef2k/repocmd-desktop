@@ -8,6 +8,7 @@
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
+    "build:ship": "node .electron-vue/build.js && electron-builder -p always",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
     "dev": "node .electron-vue/dev-runner.js",
@@ -68,6 +69,7 @@
     "axios": "^0.16.1",
     "chart.js": "^2.7.2",
     "electron-log": "^2.2.14",
+    "electron-updater": "^2.21.10",
     "feather-icons": "^4.7.0",
     "get-port": "^3.2.0",
     "keytar": "^4.2.1",
