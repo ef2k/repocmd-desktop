@@ -54,6 +54,9 @@ let serverProc
 function killServerProc () {
   if (serverProc) {
     fkill(serverProc.pid, { force: true })
+      .then(() => {
+        serverProc = null
+      })
   }
 }
 
@@ -124,7 +127,9 @@ app.on('ready', () => {
 })
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (process.platform === 'darwin') {
+    killServerProc()
+  } else {
     app.quit()
   }
 })
