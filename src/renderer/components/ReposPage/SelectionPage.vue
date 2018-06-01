@@ -34,49 +34,31 @@ export default {
       return 0
     }
   },
+  mounted () {
+    this.calculateListHeight()
+    window.addEventListener('resize', this.calculateListHeight)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.calculateListHeight)
+  },
   methods: {
-    getMarginHeights (el) {
-      const styles = window.getComputedStyle(el)
-      return parseFloat(styles.marginTop) + parseFloat(styles.marginBottom)
-    },
     unchecked (repo) {
       this.$emit('unchecked', repo)
     },
     emitAction (action) {
       this.$emit('action', action)
     },
+    getRealHeight (el) {
+      const clientHeight = el.clientHeight
+      const styles = window.getComputedStyle(el)
+      return clientHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom)
+    },
     calculateListHeight () {
-      const winHeight = document.documentElement.clientHeight
-
-      const header = document.querySelector('.selection-header')
-      let headerHeight = 0
-      if (header) {
-        headerHeight = header.offsetHeight + this.getMarginHeights(header)
-      }
-
-      const actions = document.querySelector('.selection-actions')
-      let actionsHeight = 0
-      if (actions) {
-        actionsHeight = actions.offsetHeight + this.getMarginHeights(actions)
-      }
-
-      // Find out how much padding the list has.
-      const list = document.querySelector('.selection-list')
-      let listPadding = 0
-      if (list) {
-        const listStyles = window.getComputedStyle(list)
-        listPadding = parseFloat(listStyles.paddingTop) + parseFloat(listStyles.paddingBottom)
-      }
-
-      this.listHeight = winHeight - (headerHeight + actionsHeight) - listPadding
+      const winHeight = this.getRealHeight(document.documentElement)
+      const navbarHeight = this.getRealHeight(document.getElementById('navbar'))
+      const headerHeight = this.getRealHeight(document.getElementById('selection-header'))
+      this.listHeight = winHeight - navbarHeight - headerHeight
     }
-  },
-  mounted () {
-    // window.addEventListener('resize', this.calculateListHeight)
-    // this.calculateListHeight()
-  },
-  beforeDestroy () {
-    // window.removeEventListener('resize', this.calculateListHeight)
   }
 }
 </script>

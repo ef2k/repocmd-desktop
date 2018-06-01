@@ -1,9 +1,7 @@
 <template>
 <div class="repos-page">
   <div class="side-pane" :style="{ height: winHeight+'px', maxHeight: winHeight+'px'}">
-    <div v-if="loading">
-      <p>Fetching the latest repo data...</p>
-    </div>
+    <p v-if="loading">Fetching the latest repo data...</p>
     <div v-else-if="error">
       <p v-if="error.status === 0">The proxy server is offline.</p>
       <p v-else>There was a problem connecting to the GitHub API.</p>
@@ -13,33 +11,31 @@
       <a href="#" @click="retryServer()">Retry the server</a>
     </div>
     <div v-else>
-      <div>
-        <h2>Repositories ({{repoLen}})</h2>
-        <p class="filter-options">
-          Filter by:
-          <a href="#" @click="filterBy('all')" :disabled="isFilteredAll">All</a> |
-          <a href="#" @click="filterBy('public')" :disabled="isFilteredPublic">Public</a> |
-          <a href="#" @click="filterBy('private')" :disabled="isFilteredPrivate">Private</a> |
-          <a href="#" @click="filterBy('fork')" :disabled="isFilteredFork">Fork</a> |
-          <a href="#" @click="filterBy('archived')" :disabled="isFilteredArchived">Archived</a>
-        </p>
-        <p class="sort-options">
-          Sort by:
-          <a href="#" @click="sortBy('recent')" :disabled="isSortedRecent">Recent commit</a> |
-          <a href="#" @click="sortBy('oldest')" :disabled="isSortedOldest">Oldest commit</a>
-        </p>
-        <div class="search-bar">
-          <input v-model="search" type="text" placeholder="Search"/>
-        </div>
-        <div class="repositories">
-          <repo v-for="repo in filteredList" v-bind:key="repo.id" :repo="repo" @checked="checkRepo" @unchecked="uncheckRepo"></repo>
-        </div>
+      <h2>Repositories ({{repoLen}})</h2>
+      <p class="filter-options">
+        Filter by:
+        <a href="#" @click="filterBy('all')" :disabled="isFilteredAll">All</a> |
+        <a href="#" @click="filterBy('public')" :disabled="isFilteredPublic">Public</a> |
+        <a href="#" @click="filterBy('private')" :disabled="isFilteredPrivate">Private</a> |
+        <a href="#" @click="filterBy('fork')" :disabled="isFilteredFork">Fork</a> |
+        <a href="#" @click="filterBy('archived')" :disabled="isFilteredArchived">Archived</a>
+      </p>
+      <p class="sort-options">
+        Sort by:
+        <a href="#" @click="sortBy('recent')" :disabled="isSortedRecent">Recent commit</a> |
+        <a href="#" @click="sortBy('oldest')" :disabled="isSortedOldest">Oldest commit</a>
+      </p>
+      <div class="search-bar">
+        <input v-model="search" type="text" placeholder="Search"/>
+      </div>
+      <div class="repositories">
+        <repo v-for="repo in filteredList" v-bind:key="repo.id" :repo="repo" @checked="checkRepo" @unchecked="uncheckRepo"></repo>
       </div>
     </div>
   </div>
   <div class="main-pane" :style="{ height: winHeight+'px', maxHeight: winHeight+'px'}">
     <transition name="fade">
-      <selection-page v-if="hasSelected" :repos="selected" @action="doAction" @unchecked="uncheckRepo"/>
+      <selection-page v-if="hasSelected" :repos="selected" @action="doAction" @unchecked="uncheckRepo" @uncheckAll="uncheckAll"/>
     </transition>
   </div>
   <progress-modal></progress-modal>
@@ -134,6 +130,7 @@ export default {
     this.fetchRepos()
   },
   mounted () {
+    this.handleResize()
     window.addEventListener('resize', this.handleResize)
   },
   beforeDestroy () {
@@ -211,7 +208,8 @@ export default {
       this.$delete(this.selected, repo.id)
     },
     handleResize () {
-      this.winHeight = document.documentElement.clientHeight
+      const navHeight = document.getElementById('navbar').clientHeight
+      this.winHeight = document.documentElement.clientHeight - navHeight
     }
   }
 }

@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <navbar :token="token" />
-    <div v-if="initialized">
-      <router-view :token="token" :port="port" @tokenChanged="setToken" @deleteToken="deleteToken"/>
-    </div>
+    <navbar id="navbar" :token="token" />
+    <router-view v-if="initialized" :token="token" :port="port" @tokenChanged="setToken" @deleteToken="deleteToken"/>
     <div v-else>
-      <h1>Loading...</h1>
+      <p>Loading...</p>
     </div>
   </div>
 </template>
@@ -72,6 +70,6 @@ img, img::after, img::before {
   color: $black;
   display: grid;
   grid-template-rows: 50px auto;
-  grid-row-gap: 12px;
+  grid-row-gap: 0;
 }
 </style>
