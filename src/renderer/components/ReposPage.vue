@@ -23,7 +23,9 @@
           <a href="#" @click="filterBy('fork')" :disabled="isFilteredFork">Fork</a> |
           <a href="#" @click="filterBy('archived')" :disabled="isFilteredArchived">Archived</a>
         </p>
-        <repo v-for="repo in filteredList" v-bind:key="repo.id" :repo="repo" @checked="checkRepo" @unchecked="uncheckRepo"></repo>
+        <div class="repositories">
+          <repo v-for="repo in filteredList" v-bind:key="repo.id" :repo="repo" @checked="checkRepo" @unchecked="uncheckRepo"></repo>
+        </div>
       </div>
     </div>
   </div>
@@ -191,11 +193,12 @@ export default {
 
   .repos-page {
     display: grid;
-    grid-template-columns: 425px auto;
+    grid-template-columns: 400px auto;
     grid-column-gap: 20px;
 
     .side-pane {
       padding-left: 20px;
+      padding-right: 20px;
       border-right: 1px solid #D8D8D8;
       overflow-y: scroll;
 

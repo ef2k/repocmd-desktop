@@ -1,34 +1,36 @@
 <template>
   <div class="repo" v-bind:class="{ checked, archived }">
-    <div class="content">
-      <h3 class="title">
-        <a href="#" @click="open(repo.url)">{{repo.name}}</a>
-        <span v-if="repo.isPrivate" class="mini-badge">Private</span>
-        <span v-if="repo.isFork" class="mini-badge">Fork</span>
-        <span v-if="repo.isArchived" class="mini-badge">Archived</span>
-      </h3>
-      <p class="description">{{repo.description}}</p>
-      <div class="stats">
-        <span class="repo-stat">
-          <eye-icon/> Watchers: {{repo.watchers.totalCount}}
-        </span>
-        <span class="repo-stat">
-          <star-icon/> Stars: {{repo.stargazers.totalCount}}
-        </span>
-        <span class="repo-stat">
-          <git-branch-icon/> Forks: {{repo.forks.totalCount}}
+    <div class="wrap">
+      <div class="content">
+        <h3 class="title">
+          <a href="#" @click="open(repo.url)">{{repo.name}}</a>
+          <span v-if="repo.isPrivate" class="mini-badge">Private</span>
+          <span v-if="repo.isFork" class="mini-badge">Fork</span>
+          <span v-if="repo.isArchived" class="mini-badge">Archived</span>
+        </h3>
+        <p class="description">{{repo.description}}</p>
+        <div class="stats">
+          <span class="repo-stat">
+            <eye-icon/> Watchers: {{repo.watchers.totalCount}}
+          </span>
+          <span class="repo-stat">
+            <star-icon/> Stars: {{repo.stargazers.totalCount}}
+          </span>
+          <span class="repo-stat">
+            <git-branch-icon/> Forks: {{repo.forks.totalCount}}
+          </span>
+        </div>
+        <p class="pushed-at">
+          <span class="commit-info">
+            <git-commit-icon/> <strong><a href="#" @click="open(commitURL)" :title="commitHeadline">{{commitSHA}}</a> committed {{repo.pushedAt | moment("from", "now")}}</strong>
+          </span>
+        </p>
+      </div>
+      <div class="card-aside">
+        <span v-on:click="check" v-bind:class="{checked: checked}">
+          <check-circle-icon class="checkmark"/>
         </span>
       </div>
-      <p class="pushed-at">
-        <span class="commit-info">
-          <git-commit-icon/> <strong><a href="#" @click="open(commitURL)" :title="commitHeadline">{{commitSHA}}</a> committed {{repo.pushedAt | moment("from", "now")}}</strong>
-        </span>
-      </p>
-    </div>
-    <div class="card-aside">
-      <span v-on:click="check" v-bind:class="{checked: checked}">
-        <check-circle-icon class="checkmark"/>
-      </span>
     </div>
  </div>
 </template>
@@ -81,14 +83,11 @@ export default {
   @import "~@/assets/_globals";
 
   .repo {
-    margin: 10px 0;
-    padding: 22px 24px;
-    background: $light-gray;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
     overflow: auto;
-    display: grid;
-    width: 320px;
-    grid-template-columns: auto 30px;
-    grid-column-gap: 10px;
+    background: $light-gray;
     transition: background 0.6s;
 
     &.archived {
@@ -100,6 +99,12 @@ export default {
     &.checked {
       background: $select-green;
     }
+  }
+  .wrap {
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: auto 30px;
+    grid-column-gap: 10px;
 
     .content {
       display: block;
