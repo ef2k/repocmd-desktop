@@ -7,6 +7,7 @@ import path from 'path'
 import { execFile } from 'child_process'
 import log from 'electron-log'
 import getPort from 'get-port'
+import fkill from 'fkill'
 
 /**
  * Set `__static` path to static files in production
@@ -52,7 +53,7 @@ let serverProc
 
 function killServerProc () {
   if (serverProc) {
-    serverProc.kill()
+    fkill(serverProc.pid)
   }
 }
 
@@ -62,6 +63,11 @@ ipcMain.on('server-start', (event, token) => {
     execPath = path.join(process.resourcesPath, 'bin/repocmd')
   } else {
     execPath = path.join(process.cwd(), 'resources/mac/repocmd')
+  }
+
+  if (process.env.REPOCMD_PORT) {
+    event.sender.send('server-started', process.env.REPOCMD_PORT, token)
+    return
   }
 
   getPort().then(port => {
@@ -112,13 +118,19 @@ app.on('ready', () => {
   globalShortcut.register('CommandOrControl+,', () => {
     mainWindow.webContents.send('shortcut-settings')
   })
+  if (process.env.NODE_ENV === 'production') {
+    autoUpdater.checkForUpdates()
+  }
 })
 
 app.on('window-all-closed', () => {
-  killServerProc()
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+app.on('will-quit', () => {
+  killServerProc()
 })
 
 app.on('activate', () => {
@@ -136,8 +148,4 @@ app.on('activate', () => {
  */
 autoUpdater.on('update-downloaded', () => {
   autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
