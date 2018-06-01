@@ -53,7 +53,7 @@ let serverProc
 
 function killServerProc () {
   if (serverProc) {
-    fkill(serverProc.pid)
+    fkill(serverProc.pid, { force: true })
   }
 }
 

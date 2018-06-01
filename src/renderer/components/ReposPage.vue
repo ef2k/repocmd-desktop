@@ -143,6 +143,7 @@ export default {
     },
     fetchRepos () {
       this.loading = true
+      this.error = null
       this.$http.get(`${this.baseURL}/repos`)
         .then(response => {
           this.repos = response.data
