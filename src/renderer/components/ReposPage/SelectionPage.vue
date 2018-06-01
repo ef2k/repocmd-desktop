@@ -1,7 +1,7 @@
 <template>
 <div class="selection-page">
-  <div class="selection-header">
-    <h3>Selected Repositories ({{selectedLen}})</h3>
+  <div id="selection-header" class="selection-header">
+    <h3>Selected Repositories ({{selectedLen}}) <a href="#" @click="clearAll()">Clear Selection</a></h3>
   </div>
   <div class="wrapper">
     <selection-list :repos="repos" :height="listHeight" @unchecked="unchecked" />
@@ -45,6 +45,9 @@ export default {
     unchecked (repo) {
       this.$emit('unchecked', repo)
     },
+    clearAll () {
+      this.$emit('uncheckAll')
+    },
     emitAction (action) {
       this.$emit('action', action)
     },
@@ -80,6 +83,12 @@ export default {
   text-align: left;
   h3 {
     font-size: 20px;
+    a {
+      margin-left: 10px;
+      font-size: 14px;
+      color: $bright-blue;
+      text-decoration: none;
+    }
   }
   .selection-links {
     .feather {

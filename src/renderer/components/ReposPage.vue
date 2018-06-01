@@ -195,6 +195,12 @@ export default {
       this.$set(item, 'checked', false)
       this.removeFromSelectList(repo)
     },
+    uncheckAll () {
+      this.repos.filter(item => item.checked).forEach(item => {
+        this.$set(item, 'checked', false)
+        this.removeFromSelectList(item)
+      })
+    },
     filterBy (option) {
       this.filterOption = option
     },
