@@ -10,18 +10,18 @@
       <p class="description">{{repo.description}}</p>
       <div class="stats">
         <span class="repo-stat">
-          <i data-feather="eye"></i> Watchers: {{repo.watchers.totalCount}}
+          <eye-icon/> Watchers: {{repo.watchers.totalCount}}
         </span>
         <span class="repo-stat">
-          <i data-feather="star"></i> Stars: {{repo.stargazers.totalCount}}
+          <star-icon/> Stars: {{repo.stargazers.totalCount}}
         </span>
         <span class="repo-stat">
-          <i data-feather="git-branch"></i> Forks: {{repo.forks.totalCount}}
+          <git-branch-icon/> Forks: {{repo.forks.totalCount}}
         </span>
       </div>
       <p class="pushed-at">
         <span class="commit-info">
-          <i data-feather="git-commit"></i> <strong><a href="#" @click="open(commitURL)" :title="commitHeadline">{{commitSHA}}</a> committed {{repo.pushedAt | moment("from", "now")}}</strong>
+          <git-commit-icon/> <strong><a href="#" @click="open(commitURL)" :title="commitHeadline">{{commitSHA}}</a> committed {{repo.pushedAt | moment("from", "now")}}</strong>
         </span>
       </p>
     </div>
@@ -29,15 +29,21 @@
       <span v-on:click="check" v-bind:class="{checked: checked}">
         <i class="checkmark" data-feather="check-circle" ></i>
       </span>
-      <!-- <i class="settings" data-feather="settings"></i> -->
     </div>
  </div>
 </template>
 
 <script>
-import feather from 'feather-icons'
+import { EyeIcon, StarIcon, GitBranchIcon, GitCommitIcon } from 'vue-feather-icons'
+
 export default {
   props: ['repo'],
+  components: {
+    EyeIcon,
+    StarIcon,
+    GitBranchIcon,
+    GitCommitIcon
+  },
   computed: {
     commitURL () {
       return `https://github.com/${this.repo.nameWithOwner}/commit/${this.commitSHA}`
@@ -59,21 +65,17 @@ export default {
     check () {
       if (!this.repo.checked) {
         this.$emit('checked', this.repo)
-      } else {
-        this.$emit('unchecked', this.repo)
+        return
       }
+      this.$emit('unchecked', this.repo)
     },
     open (link) {
       this.$electron.shell.openExternal(link)
     }
-  },
-  mounted () {
-    feather.replace()
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   @import "~@/assets/_globals";
 
@@ -87,127 +89,117 @@ export default {
     grid-template-columns: auto 30px;
     grid-column-gap: 10px;
     transition: background 0.6s;
+
     &.archived {
       background: $archived-bg;
       a {
         color: $black;
       }
     }
-  }
-  .repo.checked {
-    background: $select-green;
-  }
-  .feather {
-    width: 14px;
-    height: 14px;
-    line-height: 14px;
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .card-aside {
-    width: 40px;
-    text-align: center;
-    position: relative;
-  }
-  .card-aside .feather {
-    position: relative;
-    width: 22px;
-    height: 22px;
-    cursor: pointer;
-    color: #c0c0c0;
-  }
-  .card-aside .checkmark {
-    position: absolute;
-    margin: auto;
-    top: 0px;
-    right: 8px;
-  }
-  .checked .checkmark {
-    color: $check-green;
-  }
-  .card-aside .settings {
-    position: absolute;
-    bottom: 0px;
-    right: 8px;
-  }
+    &.checked {
+      background: $select-green;
+    }
 
-  .content * {
-    padding: 0;
-    margin: 0;
-  }
-  .private-badge {
-    margin-left: 5px;
-    font-size: 12px;
-    line-height: 11px;
-    padding: 3px 4px;
-    border: 1px solid rgba(27, 30, 34, 0.15);
-    box-shadow: none;
-    color: $black;
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .mini-badge {
-    margin-left: 5px;
-    font-size: 12px;
-    line-height: 12px;
-    padding: 3px 4px;
-    border: 1px solid rgba(27, 30, 34, 0.15);
-    box-shadow: none;
-    color: $black;
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .repo-stat {
-    border: 1px solid rgba(27, 30, 34, 0.15);
-    padding: 3px 4px;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 12px;
-    color: $black;
-    display: inline-block;
-    margin-right: 5px;
-  }
-  .content {
-    display: block;
-    float: left;
-    overflow: wrap;
-  }
-  .title {
-    font-size: 18px;
-    margin: 0;
-    margin-bottom: 10px;
-  }
-  .title a {
-    text-decoration: none;
-    color: $bright-blue;
-  }
-  .description {
-    line-height: 1.5;
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-  .stats {
-    display: block;
-    margin-bottom: 15px;
-    font-size: 14px;
-  }
-  .pushed-at {
-    font-size: 14px;
-    margin-top: 0px;
-    display: block;
-  }
-  .pushed-at a {
-    text-decoration: none;
-    color: $bright-blue;
-    border-bottom: 1px dotted $black;
-  }
-  .pushed-at code {
-    margin: 5px auto;
-    display: block;
-    background: #FEFFD9;
-    display: none;
-  }
-  .pushed-at .commit-info {
-    display: block;
+    .content {
+      display: block;
+      float: left;
+      overflow: wrap;
+
+      &* {
+        padding: 0;
+        margin: 0;
+      }
+      .title {
+        font-size: 18px;
+        margin: 0;
+        margin-bottom: 10px;
+
+        a {
+          text-decoration: none;
+          color: $bright-blue;
+        }
+      }
+      .description {
+        line-height: 1.5;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+      .feather {
+        width: 14px;
+        height: 14px;
+        line-height: 14px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .mini-badge {
+        margin-left: 5px;
+        font-size: 12px;
+        line-height: 12px;
+        padding: 3px 4px;
+        border: 1px solid rgba(27, 30, 34, 0.15);
+        box-shadow: none;
+        color: $black;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .stats {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 14px;
+
+        .repo-stat {
+          border: 1px solid rgba(27, 30, 34, 0.15);
+          padding: 3px 4px;
+          font-size: 12px;
+          font-weight: bold;
+          line-height: 12px;
+          color: $black;
+          display: inline-block;
+          margin-right: 5px;
+        }
+      }
+      .pushed-at {
+        font-size: 14px;
+        margin-top: 0px;
+        display: block;
+
+        a {
+          text-decoration: none;
+          color: $bright-blue;
+          border-bottom: 1px dotted $black;
+        }
+        code {
+          margin: 5px auto;
+          display: block;
+          background: #FEFFD9;
+          display: none;
+        }
+        .commit-info {
+          display: block;
+        }
+      }
+    }
+    .card-aside {
+      width: 40px;
+      text-align: center;
+      position: relative;
+
+      .feather {
+        position: relative;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        color: #c0c0c0;
+      }
+      .checked .checkmark {
+        color: $check-green;
+      }
+      .checkmark {
+        position: absolute;
+        margin: auto;
+        top: 0px;
+        right: 8px;
+      }
+    }
   }
 </style>

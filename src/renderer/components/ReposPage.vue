@@ -193,21 +193,30 @@ export default {
     display: grid;
     grid-template-columns: 425px auto;
     grid-column-gap: 20px;
-  }
-  .side-pane {
-    padding-left: 20px;
-    border-right: 1px solid #D8D8D8;
-    overflow-y: scroll;
-  }
-  .main-pane {
-    position: relative;
-  }
-  .filter-options a {
-    color: $bright-blue;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .filter-options a[disabled=disabled] {
-    color: $black;
+
+    .side-pane {
+      padding-left: 20px;
+      border-right: 1px solid #D8D8D8;
+      overflow-y: scroll;
+
+      h2 {
+        font-size: 20px;
+      }
+      .filter-options {
+        font-size: 14px;
+
+        a {
+          color: $bright-blue;
+          text-decoration: none;
+          font-weight: bold;
+        }
+        a[disabled=disabled] {
+          color: $black;
+        }
+      }
+    }
+    .main-pane {
+      position: relative;
+    }
   }
 </style>
