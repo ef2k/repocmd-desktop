@@ -27,14 +27,14 @@
     </div>
     <div class="card-aside">
       <span v-on:click="check" v-bind:class="{checked: checked}">
-        <i class="checkmark" data-feather="check-circle" ></i>
+        <check-circle-icon class="checkmark"/>
       </span>
     </div>
  </div>
 </template>
 
 <script>
-import { EyeIcon, StarIcon, GitBranchIcon, GitCommitIcon } from 'vue-feather-icons'
+import { EyeIcon, StarIcon, GitBranchIcon, GitCommitIcon, CheckCircleIcon } from 'vue-feather-icons'
 
 export default {
   props: ['repo'],
@@ -42,7 +42,8 @@ export default {
     EyeIcon,
     StarIcon,
     GitBranchIcon,
-    GitCommitIcon
+    GitCommitIcon,
+    CheckCircleIcon
   },
   computed: {
     commitURL () {
@@ -81,11 +82,11 @@ export default {
 
   .repo {
     margin: 10px 0;
-    padding: 24px 22px;
+    padding: 22px 24px;
     background: $light-gray;
     overflow: auto;
     display: grid;
-    max-width: 350px;
+    width: 320px;
     grid-template-columns: auto 30px;
     grid-column-gap: 10px;
     transition: background 0.6s;
@@ -110,7 +111,7 @@ export default {
         margin: 0;
       }
       .title {
-        font-size: 18px;
+        font-size: 16px;
         margin: 0;
         margin-bottom: 10px;
 
@@ -120,9 +121,9 @@ export default {
         }
       }
       .description {
-        line-height: 1.5;
-        margin-bottom: 10px;
         font-size: 14px;
+        margin-bottom: 10px;
+        line-height: 1.5;
       }
       .feather {
         width: 14px;
@@ -159,8 +160,9 @@ export default {
         }
       }
       .pushed-at {
-        font-size: 14px;
+        font-size: 13px;
         margin-top: 0px;
+        margin-bottom: 0px;
         display: block;
 
         a {
