@@ -23,6 +23,14 @@
           <a href="#" @click="filterBy('fork')" :disabled="isFilteredFork">Fork</a> |
           <a href="#" @click="filterBy('archived')" :disabled="isFilteredArchived">Archived</a>
         </p>
+        <p class="sort-options">
+          Sort by:
+          <a href="#" @click="sortBy('recent')" :disabled="isSortedRecent">Recent commit</a> |
+          <a href="#" @click="sortBy('oldest')" :disabled="isSortedOldest">Oldest commit</a>
+        </p>
+        <div class="search-bar">
+          <input v-model="search" type="text" placeholder="Search"/>
+        </div>
         <div class="repositories">
           <repo v-for="repo in filteredList" v-bind:key="repo.id" :repo="repo" @checked="checkRepo" @unchecked="uncheckRepo"></repo>
         </div>
@@ -60,6 +68,8 @@ export default {
       loading: false,
       error: '',
       filterOption: 'all',
+      sortOption: 'recent',
+      search: '',
       repos: [],
       selected: {},
       winHeight: document.documentElement.clientHeight
@@ -90,28 +100,44 @@ export default {
     isFilteredArchived () {
       return this.filterOption === 'archived'
     },
+    isSortedRecent () {
+      return this.sortOption === 'recent'
+    },
+    isSortedOldest () {
+      return this.sortOption === 'oldest'
+    },
     filteredList () {
-      if (this.filterOption === 'private') {
-        return this.repos.filter(repo => repo.isPrivate)
-      } else if (this.filterOption === 'public') {
-        return this.repos.filter(repo => !repo.isPrivate)
-      } else if (this.filterOption === 'fork') {
-        return this.repos.filter(repo => repo.isFork)
-      } else if (this.filterOption === 'archived') {
-        return this.repos.filter(repo => repo.isArchived)
+      let list = this.repos.slice(0)
+
+      if (this.sortOption === 'oldest') {
+        list = list.reverse()
       }
-      return this.repos
+
+      if (this.filterOption === 'private') {
+        list = list.filter(repo => repo.isPrivate)
+      } else if (this.filterOption === 'public') {
+        list = list.filter(repo => !repo.isPrivate)
+      } else if (this.filterOption === 'fork') {
+        list = list.filter(repo => repo.isFork)
+      } else if (this.filterOption === 'archived') {
+        list = list.filter(repo => repo.isArchived)
+      }
+
+      if (this.search) {
+        list = list.filter(repo => repo.name.includes(this.search))
+      }
+
+      return list
     }
   },
   created () {
     this.fetchRepos()
   },
   mounted () {
-    // feather.replace()
-    // window.addEventListener('resize', this.handleResize)
+    window.addEventListener('resize', this.handleResize)
   },
   beforeDestroy () {
-    // window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.handleResize)
   },
   methods: {
     retryServer () {
@@ -172,14 +198,17 @@ export default {
       this.$set(item, 'checked', false)
       this.removeFromSelectList(repo)
     },
+    filterBy (option) {
+      this.filterOption = option
+    },
+    sortBy (option) {
+      this.sortOption = option
+    },
     addToSelectList (repo) {
       this.$set(this.selected, repo.id, repo)
     },
     removeFromSelectList (repo) {
       this.$delete(this.selected, repo.id)
-    },
-    filterBy (option) {
-      this.filterOption = option
     },
     handleResize () {
       this.winHeight = document.documentElement.clientHeight
@@ -205,7 +234,7 @@ export default {
       h2 {
         font-size: 20px;
       }
-      .filter-options {
+      .sort-options, .filter-options {
         font-size: 14px;
 
         a {
@@ -215,6 +244,16 @@ export default {
         }
         a[disabled=disabled] {
           color: $black;
+        }
+      }
+      .search-bar {
+        width: 100%;
+        margin-bottom: 10px;
+
+        input[type="text"] {
+          padding: 10px;
+          box-sizing: border-box;
+          width: 100%;
         }
       }
     }
