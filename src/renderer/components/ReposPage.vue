@@ -20,6 +20,7 @@
           <a href="#" @click="filterBy('all')" :disabled="isFilteredAll">All</a> |
           <a href="#" @click="filterBy('public')" :disabled="isFilteredPublic">Public</a> |
           <a href="#" @click="filterBy('private')" :disabled="isFilteredPrivate">Private</a> |
+          <a href="#" @click="filterBy('fork')" :disabled="isFilteredFork">Fork</a> |
           <a href="#" @click="filterBy('archived')" :disabled="isFilteredArchived">Archived</a>
         </p>
         <repo v-for="repo in filteredList" v-bind:key="repo.id" :repo="repo" @checked="checkRepo" @unchecked="uncheckRepo"></repo>
@@ -81,6 +82,9 @@ export default {
     isFilteredPrivate () {
       return this.filterOption === 'private'
     },
+    isFilteredFork () {
+      return this.filterOption === 'fork'
+    },
     isFilteredArchived () {
       return this.filterOption === 'archived'
     },
@@ -89,6 +93,8 @@ export default {
         return this.repos.filter(repo => repo.isPrivate)
       } else if (this.filterOption === 'public') {
         return this.repos.filter(repo => !repo.isPrivate)
+      } else if (this.filterOption === 'fork') {
+        return this.repos.filter(repo => repo.isFork)
       } else if (this.filterOption === 'archived') {
         return this.repos.filter(repo => repo.isArchived)
       }
