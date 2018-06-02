@@ -11,7 +11,12 @@
       <a href="#" @click="retryServer()">Retry the server</a>
     </div>
     <div v-else>
-      <h2>Repositories ({{repoLen}})</h2>
+      <div class="header">
+        <h2>Repositories ({{repoLen}})</h2>
+        <div class="dropdown">
+          <affiliation-dropdown :items="affiliations" :value="affiliation" @selected="switchList"/>
+        </div>
+      </div>
       <p class="filter-options">
         Filter by:
         <a href="#" @click="filterBy('all')" :disabled="isFilteredAll">All</a> |
@@ -38,14 +43,16 @@
       <selection-page v-if="hasSelected" :repos="selected" @action="doAction" @unchecked="uncheckRepo" @uncheckAll="uncheckAll"/>
     </transition>
   </div>
-  <progress-modal></progress-modal>
+  <progress-modal />
 </div>
 </template>
 
 <script>
 import Repo from '@/components/ReposPage/Repo'
+import AffiliationDropdown from '@/components/AffiliationDropdown'
 import SelectionPage from '@/components/ReposPage/SelectionPage'
 import ProgressModal from '@/components/ReposPage/ProgressModal'
+import UpsellModal from '@/components/ReposPage/UpsellModal'
 import { APIServer } from '@/services/ipc'
 
 export default {
@@ -56,11 +63,19 @@ export default {
   components: {
     Repo,
     SelectionPage,
-    ProgressModal
+    ProgressModal,
+    UpsellModal,
+    AffiliationDropdown
   },
   data () {
     return {
       baseURL: `http://127.0.0.1:${this.port}`,
+      affiliation: 'owner',
+      affiliations: {
+        owner: 'Personal',
+        collaborator: 'Collaborator',
+        organizationMember: 'Organization'
+      },
       loading: false,
       error: '',
       filterOption: 'all',
@@ -137,14 +152,18 @@ export default {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    switchList (affiliation) {
+      this.affiliation = affiliation
+      this.fetchRepos(affiliation)
+    },
     retryServer () {
       APIServer.start(this.token)
       this.fetchRepos()
     },
-    fetchRepos () {
+    fetchRepos (affiliation) {
       this.loading = true
       this.error = null
-      this.$http.get(`${this.baseURL}/repos`)
+      this.$http.get(`${this.baseURL}/repos?affiliation=${affiliation || 'owner'}`)
         .then(response => {
           this.repos = response.data
           this.loading = false
@@ -236,10 +255,24 @@ export default {
       border-right: 1px solid #D8D8D8;
       overflow-y: scroll;
 
-      h2 {
-        font-size: 20px;
+      .header {
+        margin-top: 25px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+
+        h2 {
+          display: inline-block;
+          font-size: 20px;
+          margin: 0;
+        }
+        .dropdown {
+          margin-left: auto;
+          display: inline-block;
+        }
       }
       .sort-options, .filter-options {
+        margin-top: 0;
         font-size: 14px;
 
         a {
@@ -253,12 +286,15 @@ export default {
       }
       .search-bar {
         width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
 
         input[type="text"] {
           padding: 10px;
           box-sizing: border-box;
           width: 100%;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 3px;
+          outline: 0;
         }
       }
     }

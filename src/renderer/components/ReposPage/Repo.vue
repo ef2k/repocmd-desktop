@@ -3,7 +3,7 @@
     <div class="wrap">
       <div class="content">
         <h3 class="title">
-          <a href="#" @click="open(repo.url)">{{repo.name}}</a>
+          <a href="#" @click="open(repo.url)">{{repo.nameWithOwner}}</a>
           <span v-if="repo.isPrivate" class="mini-badge">Private</span>
           <span v-if="repo.isFork" class="mini-badge">Fork</span>
           <span v-if="repo.isArchived" class="mini-badge">Archived</span>

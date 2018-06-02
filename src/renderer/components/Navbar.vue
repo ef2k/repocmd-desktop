@@ -16,13 +16,18 @@
 </template>
 
 <script>
+
 export default {
   name: 'navbar',
   props: ['token'],
-  components: {},
+  components: {
+  },
+  data () {
+    return {
+    }
+  },
   computed: {
     hasToken: () => {
-      console.log('props token ', this.token)
       return !!this.token
     }
   }
