@@ -1,5 +1,5 @@
 <template>
-<div class="selection-page">
+<div class="selection-page" v-if="hasSelected">
   <div id="selection-header" class="selection-header">
     <h3>Selected Repositories ({{selectedLen}}) <a href="#" @click="clearAll()">Clear Selection</a></h3>
   </div>
@@ -20,13 +20,18 @@ export default {
     SelectionList,
     SelectionActions
   },
-  props: ['repos'],
+  props: [
+    'repos'
+  ],
   data () {
     return {
       listHeight: 300
     }
   },
   computed: {
+    hasSelected () {
+      return Object.keys(this.repos).length > 0
+    },
     selectedLen () {
       if (this.repos) {
         return Object.keys(this.repos).length

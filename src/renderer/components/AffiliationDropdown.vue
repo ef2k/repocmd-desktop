@@ -7,7 +7,7 @@
       </span>
     </template>
     <template slot="option" slot-scope="option">
-      {{option.value}} <check-circle-icon v-if="option.isCurrent" class="checkmark"/> <lock-icon v-if="isLocked(option.id)"/>
+      {{option.value}} <check-circle-icon v-if="option.isCurrent" class="checkmark"/>
     </template>
   </dropdown>
 </div>
@@ -15,7 +15,7 @@
 
 <script>
 import Dropdown from '@/components/Dropdown'
-import { ChevronDownIcon, CheckCircleIcon, LockIcon } from 'vue-feather-icons'
+import { ChevronDownIcon, CheckCircleIcon } from 'vue-feather-icons'
 
 export default {
   name: 'affiliation-dropdown',
@@ -23,15 +23,11 @@ export default {
   components: {
     Dropdown,
     ChevronDownIcon,
-    CheckCircleIcon,
-    LockIcon
+    CheckCircleIcon
   },
   methods: {
     emitSelection (selected) {
       this.$emit('selected', selected)
-    },
-    isLocked (optionId) {
-      return optionId === 'organizationMember'
     }
   }
 }

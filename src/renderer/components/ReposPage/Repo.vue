@@ -3,7 +3,7 @@
     <div class="wrap">
       <div class="content">
         <h3 class="title">
-          <a href="#" @click="open(repo.url)">{{repo.nameWithOwner}}</a>
+          <a href="#" @click.prevent="showFeed">{{repo.nameWithOwner}}</a>
           <span v-if="repo.isPrivate" class="mini-badge">Private</span>
           <span v-if="repo.isFork" class="mini-badge">Fork</span>
           <span v-if="repo.isArchived" class="mini-badge">Archived</span>
@@ -24,10 +24,12 @@
           <span class="commit-info">
             <git-commit-icon/> <strong><a href="#" @click="open(commitURL)" :title="commitHeadline">{{commitSHA}}</a> committed {{repo.pushedAt | moment("from", "now")}}</strong>
           </span>
+          <br />
+          <small><a href="#" @click="open(repo.url)">View on GitHub</a></small>
         </p>
       </div>
       <div class="card-aside">
-        <span v-on:click="check" v-bind:class="{checked: checked}">
+        <span @click="check" v-bind:class="{checked: checked}">
           <check-circle-icon class="checkmark"/>
         </span>
       </div>
@@ -74,6 +76,9 @@ export default {
     },
     open (link) {
       this.$electron.shell.openExternal(link)
+    },
+    showFeed () {
+      this.$emit('showFeed', this.repo)
     }
   }
 }

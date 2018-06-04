@@ -34,14 +34,23 @@
         <input v-model="search" type="text" placeholder="Search"/>
       </div>
       <div class="repositories">
-        <repo v-for="repo in filteredList" v-bind:key="repo.id" :repo="repo" @checked="checkRepo" @unchecked="uncheckRepo"></repo>
+        <repo
+          v-for="repo in filteredList"
+          v-bind:key="repo.id"
+          :repo="repo"
+          @showFeed="showFeed"
+          @checked="checkRepo"
+          @unchecked="uncheckRepo"/>
       </div>
     </div>
   </div>
   <div class="main-pane" :style="{ height: winHeight+'px', maxHeight: winHeight+'px'}">
-    <transition name="fade">
-      <selection-page v-if="hasSelected" :repos="selected" @action="doAction" @unchecked="uncheckRepo" @uncheckAll="uncheckAll"/>
-    </transition>
+    <router-view
+      :baseURL="baseURL"
+      :repos="selected"
+      @action="doAction"
+      @unchecked="uncheckRepo"
+      @uncheckAll="uncheckAll"/>
   </div>
   <progress-modal />
 </div>
@@ -87,9 +96,6 @@ export default {
     }
   },
   computed: {
-    hasSelected () {
-      return Object.keys(this.selected).length > 0
-    },
     repoLen () {
       if (this.filteredList) {
         return this.filteredList.length
@@ -205,7 +211,11 @@ export default {
           })
       }
     },
+    showFeed (repo) {
+      this.$router.push(`/repos/feed/${repo.nameWithOwner}`)
+    },
     checkRepo (repo) {
+      this.$router.push('/repos/selection')
       const item = this.repos.find(item => item.id === repo.id)
       this.$set(item, 'checked', true)
       this.addToSelectList(repo)
