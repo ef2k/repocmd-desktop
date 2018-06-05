@@ -84,7 +84,7 @@ export default {
       }
       .feather {
         height: 16px;
-        color: #E5B753; 
+        color: #E5B753;
       }
       .checkmark {
         color: $check-green;

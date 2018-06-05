@@ -257,7 +257,7 @@ export default {
   .repos-page {
     display: grid;
     grid-template-columns: 400px auto;
-    grid-column-gap: 20px;
+    grid-column-gap: 0px;
 
     .side-pane {
       padding-left: 20px;

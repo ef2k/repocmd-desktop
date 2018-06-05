@@ -142,17 +142,6 @@ export default {
         display: inline-block;
         vertical-align: middle;
       }
-      .mini-badge {
-        margin-left: 5px;
-        font-size: 12px;
-        line-height: 12px;
-        padding: 3px 4px;
-        border: 1px solid rgba(27, 30, 34, 0.15);
-        box-shadow: none;
-        color: $black;
-        display: inline-block;
-        vertical-align: middle;
-      }
       .stats {
         display: block;
         margin-bottom: 15px;
