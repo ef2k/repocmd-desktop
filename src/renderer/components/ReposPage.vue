@@ -310,6 +310,7 @@ export default {
     }
     .main-pane {
       position: relative;
+      overflow: auto;
     }
   }
 </style>

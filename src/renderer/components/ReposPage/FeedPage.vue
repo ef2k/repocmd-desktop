@@ -26,13 +26,22 @@
           <span v-if="summary.isFork" class="mini-badge">Fork</span>
           <span v-if="summary.isArchived" class="mini-badge">Archived</span>
         </h1>
-        <p class="description">{{summary.description}}</p>
+        <p class="description">{{summary.description}} {{summary.homepageURL}}</p>
         <div class="ssh" @click="copy(`git clone ${summary.sshURL}`)">
           <pre>{{summary.sshURL}}</pre><button><copy-icon/></button>
         </div>
       </div>
 
       <div class="feed">
+        <div class="feed-data">
+          <h2 class="feed-title">Collaborators</h2>
+          <div class="collaborators">
+            <div class="collaborator" v-for="collaborator in collaborators">
+              <img :src="collaborator.avatarURL" :title="collaborator.login" height="50"/>
+            </div>
+          </div>
+        </div>
+
         <div class="feed-data">
           <h2 class="feed-title">Latest Commits</h2>
           <div class="commits">
@@ -65,9 +74,7 @@
           </div>
         </div>
       </div>
-
     </div>
-
   </div>
 </template>
 
@@ -102,6 +109,9 @@ export default {
     },
     repoURL () {
       return `https://github.com/${this.repoName}`
+    },
+    collaborators () {
+      return this.repo.summary.collaborators.users
     },
     releases () {
       return this.repo.feeds.releases
@@ -211,6 +221,14 @@ export default {
     }
     .feed {
       .feed-data {
+        .collaborator {
+          display: inline-block;
+          margin-right: 5px;
+          img {
+            border-radius: 30px;
+            border: 5px solid #f2f2f2;
+          }
+        }
         .feed-title {
           font-size: 18px;
           margin: 10px 0;
