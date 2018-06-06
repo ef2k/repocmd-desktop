@@ -69,7 +69,7 @@ img, img::after, img::before {
   -moz-osx-font-smoothing: grayscale;
   color: $black;
   display: grid;
-  grid-template-rows: 50px auto;
+  grid-template-rows: auto auto;
   grid-row-gap: 0;
 }
 </style>
