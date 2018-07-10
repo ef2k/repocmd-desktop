@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import NotFound from '@/components/NotFound'
+import TrackPage from '@/components/TrackPage'
 import SettingsPage from '@/components/SettingsPage'
 import ReposPage from '@/components/ReposPage'
 import SelectionPage from '@/components/ReposPage/SelectionPage'
@@ -16,6 +17,11 @@ const router = new Router({
       path: '/',
       name: 'index-page',
       component: SettingsPage
+    },
+    {
+      path: '/',
+      name: 'track-page',
+      component: TrackPage
     },
     {
       path: '/settings',

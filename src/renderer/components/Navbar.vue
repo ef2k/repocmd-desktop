@@ -2,13 +2,12 @@
   <div class="navbar">
     <div class="links" v-if="!!token">
       <router-link to="/track">
-        Track
+        News
       </router-link>
       <router-link to="/repos">
-        Manage
+        Repos
       </router-link>
       <router-link to="/settings">
-        <settings-icon/>
         Settings
       </router-link>
     </div>
@@ -37,13 +36,11 @@ export default {
       box-sizing: border-box;
       padding: 15px 13px;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 14px;
       color: white;
 
       &.router-link-active {
-        background: #E5E5EB;
-        color: $black;
-        font-weight: 600;
+        background: #000;
       }
     }
   }

@@ -75,6 +75,7 @@ export default {
 @import "~@/assets/_globals";
 
 .selection-page {
+  padding-left: 20px;
   padding-right: 20px;
 }
 .wrapper {

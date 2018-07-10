@@ -21,7 +21,7 @@
     <div v-else-if="ready" class="repo-details">
       <div class="summary">
         <h1>
-          <a href="#" @click.prevent="open(repoURL)">{{repoName}}<external-link-icon/></a>
+          <a href="#" @click.prevent="open(repoURL)"><github-icon class="github"/> {{repoName}}<external-link-icon/></a>
           <span v-if="summary.isPrivate" class="mini-badge">Private</span>
           <span v-if="summary.isFork" class="mini-badge">Fork</span>
           <span v-if="summary.isArchived" class="mini-badge">Archived</span>
@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import { GitCommitIcon, ExternalLinkIcon, CopyIcon } from 'vue-feather-icons'
 import { clipboard } from 'electron'
+import { GithubIcon, GitCommitIcon, ExternalLinkIcon, CopyIcon } from 'vue-feather-icons'
 
 export default {
   name: 'feed-page',
@@ -88,6 +88,7 @@ export default {
     'baseURL'
   ],
   components: {
+    GithubIcon,
     GitCommitIcon,
     ExternalLinkIcon,
     CopyIcon
@@ -165,11 +166,12 @@ export default {
 @import "~@/assets/_globals";
 
 .feed-page {
-  padding: 0 20px;
+  padding: 15px 20px 50px 20px;
 
   .repo-details {
     h1 {
-      font-size: 28px;
+      font-size: 32px;
+      font-weight: 300;
       margin: 20px 0;
 
       a {
@@ -177,8 +179,11 @@ export default {
         text-decoration: none;
         .feather {
           margin-left: 3px;
-          color: $dark-blue;
+          color: $black;
           height: 18px;
+        }
+        .github {
+          height: 24px;
         }
       }
     }
@@ -253,10 +258,11 @@ export default {
               width: 10px;
             }
             .date {
-              font-weight: 600;
+              font-weight: 300;
             }
             .title {
               color: $bright-blue;
+              color: $black;
               text-decoration: none;
               font-weight: 600;
               margin-right: 7px;

@@ -106,7 +106,7 @@ export default {
     }
   }
   .wrap {
-    padding: 22px 24px;
+    padding: 20px 18px;
     display: grid;
     grid-template-columns: auto 30px;
     grid-column-gap: 10px;
@@ -121,7 +121,7 @@ export default {
         margin: 0;
       }
       .title {
-        font-size: 16px;
+        font-size: 15px;
         margin: 0;
         margin-bottom: 10px;
 
