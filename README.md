@@ -8,6 +8,12 @@ Quickly overview and manage GitHub repositories. Built with Electron, Vue, and G
 
 See: [RepoCMD - An Adventure into Electron](https://eddieflores.com/tech/repocmd).
 
+#### Dependencies
+
+This app is powered by `repocmd`, a standalone server built in Go.
+
+https://github.com/ef2k/repocmd
+
 #### Setup
 
 ``` bash
