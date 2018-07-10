@@ -2,6 +2,8 @@
 
 > Quickly overview and manage GitHub repositories
 
+<img src="_docs/repocmd.png"/>
+
 ### Weirdness I encountered
 
 - When using pyenv, make sure `pyenv default` is python 2.x, otherwise keytar fails with a gyp error.
