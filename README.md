@@ -1,34 +1,31 @@
-# repocmd
-
-> Quickly overview and manage GitHub repositories
-
 <img src="_docs/repocmd.png"/>
 
-### Weirdness I encountered
+# repocmd
 
-- When using pyenv, make sure `pyenv default` is python 2.x, otherwise keytar fails with a gyp error.
-- If node complains about the module version for keytar, run `node_modules/.bin/electron-rebuild`.
+Quickly overview and manage GitHub repositories. Built with Electron, Vue, and Go.
 
-#### Build Setup
+## To learn how Go, Vue, and Electron can play together
+
+See: [RepoCMD - An Adventure into Electron](https://eddieflores.com/tech/repocmd).
+
+#### Setup
 
 ``` bash
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:9080
+# serve using the local Go binary
 npm run dev
 
-# build electron application for production
-npm run build
-
-# run unit & end-to-end tests
-npm test
-
-
-# lint all JS/Vue component files in `src/`
-npm run lint
+# if running github.com/ef2k/repocmd locally, use:
+npm run dev:go
 
 ```
+
+### Weirdness I encountered
+
+- If using pyenv, make sure `pyenv default` is python 2.x, otherwise keytar fails with a gyp error.
+- If node complains about the module version for keytar, run `node_modules/.bin/electron-rebuild`.
 
 ---
 
