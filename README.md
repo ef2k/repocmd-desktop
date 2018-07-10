@@ -14,7 +14,7 @@ This app is powered by `repocmd`, a standalone server built in Go.
 
 https://github.com/ef2k/repocmd
 
-#### Setup
+#### To Setup Electron
 
 ``` bash
 # install dependencies
